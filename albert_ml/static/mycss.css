@@ -1,0 +1,62 @@
+.top{
+    padding-top: 10vh;
+    margin-top: 15vh;
+}
+
+.topText{
+    padding: 50px;
+}
+
+.topGraph{
+    margin-top: 50px;
+    /* margin-bottom: -50px; */
+}
+
+.mysect {
+    background-image: url("wave.svg"); /* The image used */
+    /* background-color: #cccccc;  */
+    /* Used if the image is unavailable */
+    height: 100vh;/* You must set a specified height */
+    background-position: 0 15vh !important;
+     /* top; */
+      /* sho top the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.mlModelEff{
+    /* margin: 50px; */
+    margin-top: 30vh;
+    background-color: #E6E9E9; 
+
+}
+
+.mlText{
+    /* margin-left: 50px; */
+    height: 90vh;
+} 
+
+.instantPrediction{
+    height: 70vh;
+    /* background-color: #F6EBFB; */
+}
+
+.predText{
+    margin-top: 50px;
+}
+
+.textPred{
+    padding-top: 50px;
+    /* color: #A432D9; */
+    margin-bottom: 10vh;
+}
+
+.pTextArea{
+    margin-top: 10vh;
+}
+
+.viewTable{
+    height: 60vh;
+    background-color: #E6E9E9;
+    margin-bottom: 10vh;
+}

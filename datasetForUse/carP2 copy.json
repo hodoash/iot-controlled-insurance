@@ -1,0 +1,40 @@
+[
+  {
+    "AltitudeVariation": 2.100006104,
+    "VehicleSpeedInstantaneous": 29.69999886,
+    "VehicleSpeedAverage": 28.40999908,
+    "VehicleSpeedVariance": 56.16090993,
+    "VehicleSpeedVariation": 0,
+    "LongitudinalAcceleration": -0.0644,
+    "EngineLoad": 79.60784149,
+    "EngineCoolantTemperature": 80,
+    "ManifoldAbsolutePressure": 112,
+    "EngineRPM": 1254,
+    "MassAirFlow": 14.90999985,
+    "IntakeAirTemperature": 23,
+    "VerticalAcceleration": -0.076,
+    "FuelConsumptionAverage": 14.54682827,
+    "roadSurface": "SmoothCondition",
+    "traffic": "LowCongestionCondition",
+    "drivingStyle": "EvenPaceStyle"
+  },
+  {
+    "AltitudeVariation": 1.5,
+    "VehicleSpeedInstantaneous": 33.29999924,
+    "VehicleSpeedAverage": 28.34999911,
+    "VehicleSpeedVariance": 55.34084256,
+    "VehicleSpeedVariation": 3.600000381,
+    "LongitudinalAcceleration": -0.1817,
+    "EngineLoad": 80,
+    "EngineCoolantTemperature": 80,
+    "ManifoldAbsolutePressure": 113,
+    "EngineRPM": 1363.5,
+    "MassAirFlow": 15.32999992,
+    "IntakeAirTemperature": 23,
+    "VerticalAcceleration": -0.0605,
+    "FuelConsumptionAverage": 14.55406761,
+    "roadSurface": "SmoothCondition",
+    "traffic": "LowCongestionCondition",
+    "drivingStyle": "EvenPaceStyle"
+  }
+]
