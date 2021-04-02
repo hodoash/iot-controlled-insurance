@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home" />
+        <!--            android:icon=""-->
+        <item
+            android:id="@+id/nav_home1"
+            android:title="Home1" />
+        <item
+            android:id="@+id/nav_home2"
+            android:title="Home2" />
+        <item
+            android:id="@+id/nav_home3"
+            android:title="Home3" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:title="Profile">
+
+            <menu>
+                <item
+                    android:id="@+id/nav_home4"
+                    android:title="Home4" />
+                <item
+                    android:id="@+id/nav_home5"
+                    android:title="Home5" />
+                <item
+                    android:id="@+id/nav_home6"
+                    android:title="Home6" />
+
+            </menu>
+        </item>
+    </group>
+
+    <item android:title="communication">
+        <menu>
+            <item
+                android:id="@+id/nav_home7"
+                android:title="Home7" />
+
+            <item
+                android:id="@+id/nav_home8"
+                android:title="Home8" />
+        </menu>
+    </item>
+
+</menu>

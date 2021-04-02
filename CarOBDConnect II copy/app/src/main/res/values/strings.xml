@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CarOBDConnect</string>
+    <string name="search">Search</string>
+<!--    <string name="search">Search</string>-->
+    <string name="scroll">Scroll</string>
+    <string name="read">Read</string>
+    <string name="message_shows_up_here">Message shows up here ...</string>
+    <string name="clear_input">Clear Input</string>
+</resources>
