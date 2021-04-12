@@ -217,13 +217,49 @@ predict_text=""
 #     predict()
 #     return ("nothing")
 
+onePrediction=pd.DataFrame()
 @app.route('/predict',methods=['POST','GET'])
 def predict():
     #for GUI rendering
     if request.method == 'POST':
+        # for key, val in request.form.items():
+        #     print(key,val)
+            #features=
+        features=[float(x) for key,x in request.form.items()]#.form.values()
+        clean_featurs=[np.array(features)]
+        predict=model.predict_proba(clean_featurs)
+        pValue=predict[0][1]
+
+        if pValue>0.5:
+            predict_text="Aggresive mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
+        else:
+            predict_text="Safe mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
+    return jsonify({'predict_text' : predict_text})
+        # print(features)
+        # onePrediction["VehicleSpeedAverage"]=request.form['VehicleSpeedAverage']
+        # print(onePrediction)
+        # onePrediction["LongitudinalAcceleration"]=request.form['LongitudinalAcceleration']
+        # onePrediction["EngineLoad"]=request.form['EngineLoad']
+        # onePrediction["VerticalAcceleration"]=request.form['VerticalAcceleration']
+        # onePrediction["FuelConsumptionAverage"]=request.form['FuelConsumptionAverage']
+        # onePrediction["VehicleSpeedInstantaneous"]=request.form['VehicleSpeedInstantaneous']
+        # onePrediction["VehicleSpeedVariance"]=request.form['VehicleSpeedVariance']
+        
+    #     print(onePrediction)
+        
+    #     predict=model.predict_proba(onePrediction)
+    #     print(predict)
+    #     pValue=predict[0][1]
+    #     if pValue>str(0.5):
+    #         predict_text="Aggresive mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
+    #     else:
+    #         predict_text="Safe mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
+    # return("true")
+        
         # print(request.)
-        req=request.get_data()
-        print(req)
+        #req=request.get_data()
+        #print(VehicleSpeedAverage)
+        #print("vehicle sped data from form")
     # features=[float(x) for x in request.data()]#.form.values()
     # clean_featurs=[np.array(features)]
     # predict=model.predict_proba(clean_featurs)

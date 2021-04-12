@@ -159,10 +159,16 @@
             }, 
             success:function() 
             { 
-              alert('saved');
+              //alert('saved');
                //do nothing
             } 
-          }) 
+          }).done(function(data){
+            if(data){
+              $("#predict_text").text(data.predict_text).show();
+            }
+          })
+
+           
         }); 
       </script> 
 
@@ -190,9 +196,11 @@
                   </div>
                 
             </form>
-            <div class="pTextArea container">
+            <div class="pTextArea container alert alert-success" role="alert" style="display:none;" id="predict_text" >
+            <!-- <div class="pTextArea container alert alert-danger" role="alert" style="display:none;" id="predict_" > -->
+
               <!-- <p class="">{{ predict_text }}</p> -->
-                <input class="py-4 form-control" type="text" value="{{ predict_text }}" placeholder="Readonly input here…" readonly>
+                <!-- <input class="py-4 form-control" type="text" id="predict_text" value="{{ predict_text }}" placeholder="Readonly input here…" readonly> -->
             </div>  
            
         </div>

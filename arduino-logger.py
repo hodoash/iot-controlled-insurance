@@ -14,7 +14,7 @@ from datetime import datetime
 
 print ("Loading constants")
 DEBUGOUT="prj201205-01-debug.txt"
-PORT="/dev/cu.usbserial-14440"#"COM3"     # This port will need to be adjusted to match your installation
+PORT="/dev/cu.usbserial-14340"#"COM3"     # This port will need to be adjusted to match your installation
 TARGET="/Users/leftee/Documents/GitHub/iot controlled insurance/datasetForUse/carP2.json"
 arduino = serial.Serial(PORT, 9600, timeout=.1)
 #"C:/Node/DropBox/Dropbox/RemoteSignal/ArduinoCommand.txt"
@@ -91,6 +91,7 @@ def commandarduino(sendvalue):
     print (" Sending Value: %s" % sendvalue)
     #ser.write(sendvalue)
     arduino.write(sendvalue)
+    print("sent")
     time.sleep(2)
     
 # Start communication with Arduino
@@ -101,13 +102,32 @@ print ("Starting serial port communications")
 print ("Core Logic start")
 print ("Starting command loop - Press 'Z' to end program")
 sendvalue=""
+endofline="}"
 prevsendvalue="".encode('utf-8')
 while 1==1:
      # data = []
      with open(TARGET) as f:
-         for line in f:
-             commandarduino(line.encode('utf-8'))
-             print("sent")
+        for line in f:
+            commandarduino(line.encode('utf-8'))
+            #  #COLLECT THE LINE. //////////////////////////////////////
+            #  #ADD TO VARIABLE
+            #   #IF YOU FIND }, THEN
+            #  #  STRIP NL FROM IT
+            #  #  AND ADD NL 
+            #  # AND SEND
+            #  #ELSE KEEP COLLECTING ///////////////////////////////////
+            #  #commandarduino(line.encode('utf-8'))
+            # if endofline not in sendvalue:
+            #     sendvalue=sendvalue+line
+            #     sendvalue=sendvalue.strip("\n\t")
+            #     # sendvalue=sendvalue.rstrip()#strip("\n")
+            # else:   
+            #     #sendvalue=sendvalue+"\n"
+            #     #line=line+"advsdfbvabfabb abafbfbadfb afbaefrbarbsrbrstbrtabatbtatbtab tabattagrrtabtafbafvfa bvrfbvaertbvarebvftbatfgbatb atrbatrbatbarbatbtabaabbtb ababatbtabtababtabr tabartbrtabartbartbtarbtrb srtbtabrtbgtatbgab"
+            #     #commandarduino(line.encode('utf-8'))
+            #     commandarduino(sendvalue.encode('utf-8'))
+                
+            
 #             #data.append(json.loads(line))
 #             #print(line)
 #             sendvalue=line.encode('utf-8') #json.loads(line)#line.strip()

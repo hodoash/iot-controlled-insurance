@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -338,10 +340,13 @@ public class ViewDataScreen extends Activity {
         String dataArr[]=mReadThread.getItems();
         for (int i=0;i<dataArr.length; i++){
 
-            StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
+            //StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
 
-            topic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-            payload = tokens.nextToken();// this will contain " the sensor data"
+            //topic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
+            //payload = tokens.nextToken();// this will contain " the sensor data"
+            topic = "driver1testingspace";//tokens.nextToken();// this will contain "everything before the / ie the topic info"
+            payload = dataArr[i];//tokens.nextToken();// this will contain " the sensor data"
+
 
             byte[] encodedPayload = new byte[0];
             try {
@@ -366,10 +371,10 @@ public class ViewDataScreen extends Activity {
         String dataArr[]=mReadThread.getItems();
         for (int i=0;i<dataArr.length; i++){
 
-            StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
+//            StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
 
-            topic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-            payload = tokens.nextToken();// this will contain " the sensor data"
+            topic = "driver1testingspace";//tokens.nextToken();// this will contain "everything before the / ie the topic info"
+            payload = dataArr[i];//tokens.nextToken();// this will contain " the sensor data"
 
             byte[] encodedPayload = new byte[0];
             try {
@@ -423,25 +428,42 @@ public class ViewDataScreen extends Activity {
 
     private class ReadInput implements Runnable {
 
-        HashMap<String,Integer> topicMap=new HashMap<String,Integer>();//Creating HashMap to store topic and number
-        HashMap<String,Integer> dataMap=new HashMap<String,Integer>();//Creating HashMap to store topic and sensor
+        Queue<String> myq = new LinkedList<>();
 
-        public String[] getItems(){// should be called with a scheduler
-            String aggreItems[]=new String[topicMap.size()];
+        public String[] getItems(){
             int counter_=0;
-            for(Map.Entry item : topicMap.entrySet()){
-                try {
-                    //System.out.println(m.getKey()+" "+m.getValue());
-                    aggreItems[counter_] = item.getKey() + "/" + dataMap.get(sensorTopic) / Integer.valueOf(item.getValue().toString());
+            String aggreItems[]=new String[myq.size()];
+            while(!myq.isEmpty()){
+                if(myq.peek().contains("}")) {
+                    aggreItems[counter_] = myq.poll();
                     counter_++;
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }topicMap.clear();//clears map
-            dataMap.clear();//clears map
-            counter_=0;//set counter to 0
+            }
+            myq.clear();
+            counter_=0;
             return aggreItems;
         }
+
+
+//        HashMap<String,Integer> topicMap=new HashMap<String,Integer>();//Creating HashMap to store topic and number
+//        HashMap<String,Integer> dataMap=new HashMap<String,Integer>();//Creating HashMap to store topic and sensor
+
+//        public String[] getItems(){// should be called with a scheduler
+//            String aggreItems[]=new String[topicMap.size()];
+//            int counter_=0;
+//            for(Map.Entry item : topicMap.entrySet()){
+//                try {
+//                    //System.out.println(m.getKey()+" "+m.getValue());
+//                    aggreItems[counter_] = item.getKey() + "/" + dataMap.get(sensorTopic) / Integer.valueOf(item.getValue().toString());
+//                    counter_++;
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }topicMap.clear();//clears map
+//            dataMap.clear();//clears map
+//            counter_=0;//set counter to 0
+//            return aggreItems;
+//        }
 
         private boolean bStop = false;
         private Thread t;
@@ -521,22 +543,39 @@ public class ViewDataScreen extends Activity {
                                         //tempSensorInput=mTxtReceive.getEditableText().toString();
 
 
-                                        StringTokenizer tokens = new StringTokenizer(tempSensorInput, "/");
-                                        sensorTopic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-                                        try {
-                                            sensorData = tokens.nextToken();// this will contain " the sensor data"
-                                        }
-                                        catch (Exception e) {
-                                            sensorData = "0";
+                                        //append to var till end and push
+                                        //ie if not },strip and add to var
+                                        //if }, then add to var and push to queue
+                                        //set var to null and do again
+                                        if(!tempSensorInput.contains("}")){
+
+                                            sensorTopic=sensorTopic+tempSensorInput.replaceAll("[\\n\\t ]", "");
+                                        }else if(tempSensorInput.contains("}")){
+                                            sensorTopic=sensorTopic+tempSensorInput;
+                                            myq.add(sensorTopic);
+                                            sensorTopic="";
                                         }
 
-                                        if(!topicMap.containsKey(sensorTopic)){//if topic not part
-                                            topicMap.put(sensorTopic,1);//place name and 1 in map
-                                            dataMap.put(sensorTopic,Integer.parseInt(sensorData));// place data in map
-                                        }else{
-                                            topicMap.put(sensorTopic,topicMap.get(sensorTopic)+1);//increment count
-                                            dataMap.put(sensorTopic,dataMap.get(sensorTopic)+Integer.parseInt(sensorData));//add curr sum
-                                        }
+
+
+//                                        StringTokenizer tokens = new StringTokenizer(tempSensorInput, "/");
+//                                        sensorTopic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
+//                                        try {
+//                                            sensorData = tokens.nextToken();// this will contain " the sensor data"
+//                                        }
+//                                        catch (Exception e) {
+//                                            sensorData = "0";
+//                                        }
+//
+//
+//
+//                                        if(!topicMap.containsKey(sensorTopic)){//if topic not part
+//                                            topicMap.put(sensorTopic,1);//place name and 1 in map
+//                                            dataMap.put(sensorTopic,Integer.parseInt(sensorData));// place data in map
+//                                        }else{
+//                                            topicMap.put(sensorTopic,topicMap.get(sensorTopic)+1);//increment count
+//                                            dataMap.put(sensorTopic,dataMap.get(sensorTopic)+Integer.parseInt(sensorData));//add curr sum
+//                                        }
                                     };
 
                                     //}
