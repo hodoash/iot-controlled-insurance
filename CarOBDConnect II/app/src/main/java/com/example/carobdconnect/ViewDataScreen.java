@@ -547,7 +547,7 @@ public class ViewDataScreen extends Activity {
                                         //ie if not },strip and add to var
                                         //if }, then add to var and push to queue
                                         //set var to null and do again
-                                        if(!tempSensorInput.contains("}")){
+                                        if(!tempSensorInput.contains("}")){//.............................fix this later..sometimes the data is cut so we dont get }
 
                                             sensorTopic=sensorTopic+tempSensorInput.replaceAll("[\\n\\t ]", "");
                                         }else if(tempSensorInput.contains("}")){

@@ -7,9 +7,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Base64OutputStream;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +18,6 @@ import android.widget.CheckBox;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-//import androidx.annotation.RequiresApi;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -29,16 +28,18 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-//public class ViewDataScreen extends Activity {
-//}
+
 
 
 public class ViewDataScreen extends Activity {
@@ -80,6 +81,7 @@ public class ViewDataScreen extends Activity {
 
     public ViewDataScreen() {
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,76 +133,6 @@ public class ViewDataScreen extends Activity {
         }
 
 
-        //final constaints=
-
-//        public class UploadWorker extends Worker {
-//            public UploadWorker(
-//                    @NonNull Context context,
-//                    @NonNull WorkerParameters params) {
-//                super(context, params);
-//            }
-//            @Override
-//            public Result doWork() {
-//
-//                // Do the work here--in this case, upload the images.
-//                //uploadImages();
-//                String topic;
-//                String payload;
-//                String dataArr[]=mReadThread.getItems();
-//                for (int i=0;i<dataArr.length; i++){
-//
-//                    StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
-//
-//                    topic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-//                    payload = tokens.nextToken();// this will contain " the sensor data"
-//
-//                    byte[] encodedPayload = new byte[0];
-//                    try {
-//                        encodedPayload = payload.getBytes("UTF-8");
-//                        MqttMessage message = new MqttMessage(encodedPayload);
-//                        client.publish(topic, message);
-//                    } catch (UnsupportedEncodingException | MqttException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//                //String topic = "myobd/testing";//.........................topic. change it to sensor topic
-//                // String payload = "hi, this is the first obd payload";//...................payload. change it to sensor data
-//
-//                //uploadToMQTT();
-//
-//                // Indicate whether the work finished successfully with the Result
-//                return Result.success();
-//            }
-//        }
-
-
-//        final PeriodicWorkRequest periodicWorkRequest =
-//                new PeriodicWorkRequest
-//                        .Builder(UploadWorker.class, 15, TimeUnit.MINUTES)//change to minutes
-//                        .build();
-
-
-//        final Runnable mHandlerTask = new Runnable()
-//        {
-//            @Override
-//            public void run() {
-////                doSomething();
-//                uploadToMQTT2();
-//                mHandler.postDelayed(mHandlerTask, INTERVAL);
-//            }
-//        };
-
-//        void startRepeatingTask()
-//        {
-//            mHandlerTask.run();
-//        }
-//
-//        void stopRepeatingTask()
-//        {
-//            mHandler.removeCallbacks(mHandlerTask);
-//        }
-
 
         publish_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -208,61 +140,10 @@ public class ViewDataScreen extends Activity {
             public void onClick(View v) {
                 myTimer.scheduleAtFixedRate(myTask, 0l, 1 * (60 * 1000)); // Runs every 5 mins
 
-//                WorkManager                                               // .............................................this ..view this space
-//                        .getInstance(getApplicationContext())
-//                        .enqueue(periodicWorkRequest);
-//                mHandlerTask.run();
-//                Timer myTimer = new Timer("MyTimer", true);
-//                myTimer.scheduleAtFixedRate(new MyTask(), 10000, 1000 * 60 * 2);
-//                ComponentName componentName = new ComponentName(this, UploadScheduler.class); //(this, UploadScheduler.class);
-//                JobInfo info = new JobInfo.Builder(123,componentName)
-//                        .setPeriodic(5000)
-//                        .setPersisted(true)
-//                        .build();
-//                final Handler handler = new Handler(Looper.getMainLooper());
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        //Do something after 100ms
-//                        uploadToMQTT2();
-//                    }
-//                }, 3000);//120000
-
-                //UploadWorker tempWorker = new UploadWorker(Context );
-                //createConn();//do not remove this
-                //Enqueuing the work request
-
-
-//                String topic;
-//                String payload;
-//
-//                String dataArr[]=mReadThread.getItems();
-//                for (int i=0;i<dataArr.length; i++){
-//
-//                    StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
-//
-//                    topic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-//                    payload = tokens.nextToken();// this will contain " the sensor data"
-//
-//                    byte[] encodedPayload = new byte[0];
-//                    try {
-//                        encodedPayload = payload.getBytes("UTF-8");
-//                        MqttMessage message = new MqttMessage(encodedPayload);
-//                        client.publish(topic, message);
-//                    } catch (UnsupportedEncodingException | MqttException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-                //String topic = "myobd/testing";//.........................topic. change it to sensor topic
-                // String payload = "hi, this is the first obd payload";//...................payload. change it to sensor data
 
             }
         });
 
-//        public void scheduleJob(View v){
-//
-//        }
 
 
         mBtnClearInput.setOnClickListener(new View.OnClickListener() {
@@ -276,32 +157,18 @@ public class ViewDataScreen extends Activity {
 
     }
 
-//    public static void sentToScreen(){
-//        mTxtSend.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                mTxtSend.append();//................the input
-//)
-//    }
-//    private class MyTask extends TimerTask {
-//
-//        public void run(){
-//            uploadToMQTT2();
-//        }
-//
-//    }
 
-    public void uploadToMQTT2() {
+
+    public void uploadToMQTT2(){
         String topic;
         String payload;
 
-        String dataArr[] = mReadThread.getItems();
-        for (int i = 0; i < dataArr.length; i++) {
+        String dataArr[]=mReadThread.getItems();
+        for (int i=0;i<dataArr.length; i++){
 
-            StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
+            topic = "driver1testingspace";//tokens.nextToken();// this will contain "everything before the / ie the topic info"
+            payload = dataArr[i];//tokens.nextToken();// this will contain " the sensor data"
 
-            topic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-            payload = tokens.nextToken();// this will contain " the sensor data"
 
             byte[] encodedPayload = new byte[0];
             try {
@@ -310,7 +177,7 @@ public class ViewDataScreen extends Activity {
                 client.publish(topic, message);
                 //add code to write published items here .......................................................
                 //mTxtSend.post(
-                //\\mTxtSend.append("published: "+ message.toString());//);//................the input);
+//                mTxtSend.append("published: "+ message.toString());//);//................the input);
 
             } catch (UnsupportedEncodingException | MqttException e) {
                 e.printStackTrace();
@@ -319,56 +186,6 @@ public class ViewDataScreen extends Activity {
         }
     }
 
-    public static void uploadToMQTT() {
-        String topic;
-        String payload;
-
-        String dataArr[] = mReadThread.getItems();
-        for (int i = 0; i < dataArr.length; i++) {
-
-            StringTokenizer tokens = new StringTokenizer(dataArr[i], "/");
-
-            topic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-            payload = tokens.nextToken();// this will contain " the sensor data"
-
-            byte[] encodedPayload = new byte[0];
-            try {
-                encodedPayload = payload.getBytes("UTF-8");
-                final MqttMessage message = new MqttMessage(encodedPayload);
-                client.publish(topic, message);
-                //add code to write published items here .......................................................
-                //mTxtSend.post(
-//                        mTxtSend.append("published: "+ message.toString());//);//................the input);
-
-            } catch (UnsupportedEncodingException | MqttException e) {
-                e.printStackTrace();
-            }
-
-        }
-        //String topic = "myobd/testing";//.........................topic. change it to sensor topic
-        // String payload = "hi, this is the first obd payload";//...................payload. change it to sensor data
-
-    }
-
-
-//    public static class UploadWorker extends Worker {
-//        public UploadWorker(
-//                @NonNull  Context context,
-//                @NonNull WorkerParameters params) {
-//            super(context, params);
-//        }
-//        //Context alb=context;
-//        @Override
-//        public Result doWork() {
-//
-//            // Do the work here--in this case, upload the images.
-//            uploadToMQTT();
-//
-//            // Indicate whether the work finished successfully with the Result
-//            return Result.success();
-//        }
-//
-//    }
 
     Timer myTimer = new Timer();
     TimerTask myTask = new TimerTask() {
@@ -382,26 +199,22 @@ public class ViewDataScreen extends Activity {
 
     private class ReadInput implements Runnable {
 
-        HashMap<String, Integer> topicMap = new HashMap<String, Integer>();//Creating HashMap to store topic and number
-        HashMap<String, Integer> dataMap = new HashMap<String, Integer>();//Creating HashMap to store topic and sensor
+        Queue<String> myq = new LinkedList<>();
 
-        public String[] getItems() {// should be called with a scheduler
-            String aggreItems[] = new String[topicMap.size()];
-            int counter_ = 0;
-            for (Map.Entry item : topicMap.entrySet()) {
-                try {
-                    //System.out.println(m.getKey()+" "+m.getValue());
-                    aggreItems[counter_] = item.getKey() + "/" + dataMap.get(sensorTopic) / Integer.valueOf(item.getValue().toString());
+        public String[] getItems(){
+            int counter_=0;
+            String aggreItems[]=new String[myq.size()];
+            while(!myq.isEmpty()){
+                if(myq.peek().contains("}")) {
+                    aggreItems[counter_] = myq.poll();
                     counter_++;
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
-            topicMap.clear();//clears map
-            dataMap.clear();//clears map
-            counter_ = 0;//set counter to 0
+            myq.clear();
+            counter_=0;
             return aggreItems;
         }
+
 
         private boolean bStop = false;
         private Thread t;
@@ -423,7 +236,7 @@ public class ViewDataScreen extends Activity {
             try {
                 inputStream = mBTSocket.getInputStream();
                 while (!bStop) {
-                    byte[] buffer = new byte[256];
+                    byte[] buffer = new byte[1024];//[256];
                     if (inputStream.available() > 0) {
                         inputStream.read(buffer);
                         int i = 0;
@@ -434,24 +247,7 @@ public class ViewDataScreen extends Activity {
                         }
                         final String strInput = new String(buffer, 0, i);
 
-//                        /*
-//                         * This section handles the aggregation of data
-//                         */
-//
-//                        tempSensorInput=strInput;
-//
-//                        StringTokenizer tokens = new StringTokenizer(tempSensorInput, "/");
-//                         sensorTopic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-//                         sensorData = tokens.nextToken();// this will contain " the sensor data"
-//                        Log.v("ViewDataScreen",strInput);
-//
-//                        if(!topicMap.containsKey(sensorTopic)){//if topic not part
-//                            topicMap.put(sensorTopic,1);//place name and 1 in map
-//                            dataMap.put(sensorTopic,Integer.parseInt(sensorData));// place data in map
-//                        }else{
-//                            topicMap.replace(sensorTopic,topicMap.get(sensorTopic)+1);//increment count
-//                            dataMap.replace(sensorTopic,dataMap.get(sensorTopic)+Integer.parseInt(sensorData));//add curr sum
-//                        }
+
 
 
 
@@ -479,23 +275,19 @@ public class ViewDataScreen extends Activity {
                                         tempSensorInput = tempText[i];
 
                                         //tempSensorInput=mTxtReceive.getEditableText().toString();
+                                        //append to var till end and push
+                                        //ie if not },strip and add to var
+                                        //if }, then add to var and push to queue
+                                        //set var to null and do again
+                                        if(!tempSensorInput.contains("}")){//.............................fix this later..sometimes the data is cut so we dont get }
 
-
-                                        StringTokenizer tokens = new StringTokenizer(tempSensorInput, "/");
-                                        sensorTopic = tokens.nextToken();// this will contain "everything before the / ie the topic info"
-                                        try {
-                                            sensorData = tokens.nextToken();// this will contain " the sensor data"
-                                        } catch (Exception e) {
-                                            sensorData = "0";
+                                            sensorTopic=sensorTopic+tempSensorInput.replaceAll("[\\n\\t ]", "");
+                                        }else if(tempSensorInput.contains("}")){
+                                            sensorTopic=sensorTopic+tempSensorInput;
+                                            myq.add(sensorTopic);
+                                            sensorTopic="";
                                         }
 
-                                        if (!topicMap.containsKey(sensorTopic)) {//if topic not part
-                                            topicMap.put(sensorTopic, 1);//place name and 1 in map
-                                            dataMap.put(sensorTopic, Integer.parseInt(sensorData));// place data in map
-                                        } else {
-                                            topicMap.put(sensorTopic, topicMap.get(sensorTopic) + 1);//increment count
-                                            dataMap.put(sensorTopic, dataMap.get(sensorTopic) + Integer.parseInt(sensorData));//add curr sum
-                                        }
                                     }
                                     ;
 
@@ -530,6 +322,20 @@ public class ViewDataScreen extends Activity {
                 e.printStackTrace();
             }
 
+        }
+
+
+        public void writeToArduino(String input){//to write data to arduino
+            OutputStream outputStream;
+            byte[] bytes = input.getBytes();
+            try{
+                outputStream = mBTSocket.getOutputStream();
+                while(!bStop){
+                    outputStream.write(bytes);
+                }
+            }catch (IOException e){
+                Log.e("ViewDataScreen","send error, unable to send",e);
+            }
         }
 
         public void stop() {

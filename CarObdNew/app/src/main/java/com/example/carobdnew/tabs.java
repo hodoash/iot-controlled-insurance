@@ -40,4 +40,8 @@ public class tabs extends AppCompatActivity {
             }
         });
     }
+
+    //write functions to collect data from view and send to arduino
+
+
 }
