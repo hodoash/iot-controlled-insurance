@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Mar  1 16:55:43 2021
-
 @author: leftee
 """
 
@@ -15,12 +14,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, chi2, f_classif
 from sklearn import preprocessing
 
-obdData1="opel_corsa_01_clean.csv"
-obdData2="peugeot_207_01_clean.csv"
-df1=pd.read_csv(obdData1,sep = ';')
-df2=pd.read_csv(obdData2,sep = ';')
-frames=[df1,df2]
-totalDf=pd.concat(frames)
+# obdData1="opel_corsa_01_clean.csv"
+# obdData2="peugeot_207_01_clean.csv"
+# df1=pd.read_csv(obdData1,sep = ';')
+# df2=pd.read_csv(obdData2,sep = ';')
+# frames=[df1,df2]
+totalDf=pd.read_csv("machine.csv",sep=',')#pd.concat(frames)#
+# totalDf=pd.read_csv("machine.csv")
 # totalDf=totalDf.sample(frac = 1)
 cleanData=totalDf.dropna()
 
@@ -30,7 +30,7 @@ cleanData = cleanData.replace(cleanup_nums)
 
 dataset=cleanData.values
 columns_=cleanData.columns
-# print(columns_)
+print(columns_)
 newCol=np.delete(columns_,[14,15,16])# columns_.delete()
 X=dataset[:,:-3]
 # X=pd.DataFrame(data=X,columns=newCol)
@@ -38,9 +38,13 @@ X=dataset[:,:-3]
 # X=X.delete('AltitudeVariation')
 # X=np.delete(X,"VerticalAcceleration",1)
 # X=X.delete('VerticalAcceleration')
-y=pd.to_numeric(dataset[:,-1])
+# y=pd.to_numeric(dataset[:,-1])
+y=dataset[:,-1]
+y=y.astype('int')
 
 print(X.shape)
+print(X)
+print(y)
 
 X_new = SelectKBest(f_classif, k=7).fit_transform(X, y)
 
@@ -142,7 +146,8 @@ def print_score(clf, X_train, X_test, y_train, y_test, train=True):
 # print("\n******************************\n")
 # print_score(rf_clf, X_train, X_test, y_train, y_test, train=False)
 
-
+print(Xnew_train)
+# print("unknown is hererrereerer")
 rf_clf2 = RandomForestClassifier(random_state=40)#n_estimators=50 
 rf_clf2.fit(Xnew_train, y_train)
 
@@ -154,14 +159,4 @@ print_score(rf_clf2, Xnew_train, Xnew_test, y_train, y_test, train=False)
 # confMtrx_=confusion_matrix(y_test,res_test)
 
 pickle.dump(rf_clf2,open('obdModel.pkl','wb'))
-
-
-
-
-
-
-
-
-
-
 
