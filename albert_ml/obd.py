@@ -39,6 +39,10 @@ X=dataset[:,:-3]
 # X=np.delete(X,"VerticalAcceleration",1)
 # X=X.delete('VerticalAcceleration')
 # y=pd.to_numeric(dataset[:,-1])
+
+
+# this is what we are using 
+#VehicleSpeedInstantaneous VehicleSpeedAverage. VehicleSpeedVariance. EngineCoolantTemperature.  EngineRPM  MassAirFlow. FuelConsumptionAverage
 y=dataset[:,-1]
 y=y.astype('int')
 
@@ -56,6 +60,9 @@ X_new = SelectKBest(f_classif, k=7).fit_transform(X, y)
 # mask = X_new.get_support()
 # new_features = X.columns[mask]
 print(X_new.shape)
+print("this is x new")
+print(X_new[0])
+
 # print(columns_)
 # print("test was done here")
 # print(X_new.get_support(indices=True))
@@ -148,7 +155,7 @@ def print_score(clf, X_train, X_test, y_train, y_test, train=True):
 
 print(Xnew_train)
 # print("unknown is hererrereerer")
-rf_clf2 = RandomForestClassifier(random_state=40)#n_estimators=50 
+rf_clf2 = RandomForestClassifier(random_state=50)#n_estimators=50 
 rf_clf2.fit(Xnew_train, y_train)
 
 print_score(rf_clf2, Xnew_train, Xnew_test, y_train, y_test, train=True)

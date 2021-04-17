@@ -93,14 +93,25 @@ del predData["traffic"]
 del predData["drivingStyle"]
 # X_new=np.delete(X_new,[0,4,7,8,9,10,11])
 del predData["AltitudeVariation"]
-del predData["VehicleSpeedVariation"]
-del predData["EngineCoolantTemperature"]
+del predData["VehicleSpeedVariation"]#["VehicleSpeedVariation"]
+del predData["LongitudinalAcceleration"]
+del predData["EngineLoad"]
 del predData["ManifoldAbsolutePressure"]
-del predData["EngineRPM"]
-del predData["MassAirFlow"]
-del predData["IntakeAirTemperature"]
+del predData["IntakeAirTemperature"]#predData["MassAirFlow"]
+del predData["VerticalAcceleration"]
+
+predDataTest=pd.DataFrame()
+predDataTest["VehicleSpeedInstantaneous"]=predData["VehicleSpeedInstantaneous"]
+predDataTest["VehicleSpeedAverage"]=predData["VehicleSpeedAverage"]
+predDataTest["VehicleSpeedVariance"]=predData["VehicleSpeedVariance"]
+predDataTest["EngineCoolantTemperature"]=predData["EngineCoolantTemperature"]
+predDataTest["EngineRPM"]=predData["EngineRPM"]
+predDataTest["MassAirFlow"]=predData["MassAirFlow"]
+predDataTest["FuelConsumptionAverage"]=predData["FuelConsumptionAverage"]
 
 
+print(predData.head())
+print("this is predData")
 # features=predData.iloc[1]
 # float_row=[float(x) for x in features]
 # final=[np.array(float_row)]
@@ -127,8 +138,8 @@ modelProba=[]
 allPredictions=pd.DataFrame()
 
 def predAllValues():
-    for i in range(0,len(predData)):#changed from 1   
-        features=predData.iloc[i]
+    for i in range(0,len(predDataTest)):#changed from 1   
+        features=predDataTest.iloc[i]
         float_row=[float(x) for x in features]
         final=[np.array(float_row)]
         # print("this is the row")
@@ -137,13 +148,13 @@ def predAllValues():
         # print(final)
         prediction=model.predict_proba(final)
         # print("this is the prediction")
-        # print(prediction)
+        print(prediction)
         # pValue='{0:.{1}f}'.format(prediction[0][1], 2)
         evenPVal=prediction[0][0]
         aggrePVal=prediction[0][1]
         # print(evenPVal)
 
-        if evenPVal>0.55:
+        if evenPVal>0.5:
             modelPTest.append("EvenPaceStyle")
             modelProba.append(evenPVal)
         # # return render_template('index.html',predict_text="Aggresive mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue))
@@ -230,11 +241,21 @@ def predict():
         predict=model.predict_proba(clean_featurs)
         pValue=predict[0][1]
 
-        if pValue>0.5:
-            predict_text="Aggresive mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
-        else:
-            predict_text="Safe mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
-    return jsonify({'predict_text' : predict_text})
+        if(len(predict)!=0):
+            if pValue>0.5:
+                predict_text="Aggresive mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue) 
+            else:
+                predict_text="Safe mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
+
+            return jsonify({'predict_text' : predict_text})
+        
+        # if pValue>0.5:
+        #     predict_text="Aggresive mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
+            
+        # else:
+        #     predict_text="Safe mode of driving.\n Probability of aggresive(unsafe) driving is{}".format(pValue)
+
+    return jsonify({'predict_error' : "error in conversion. check input"})
         # print(features)
         # onePrediction["VehicleSpeedAverage"]=request.form['VehicleSpeedAverage']
         # print(onePrediction)
