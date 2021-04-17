@@ -155,8 +155,13 @@ public class ViewDataScreen extends Activity {
         });
 
 
+
+
     }
 
+    public void callWiteFun(String data){
+        mReadThread.writeToArduino(data);//........................call hwrite here
+    }
 
 
     public void uploadToMQTT2(){
@@ -197,7 +202,7 @@ public class ViewDataScreen extends Activity {
     };
 
 
-    private class ReadInput implements Runnable {
+    public class ReadInput implements Runnable { //...........change to private
 
         Queue<String> myq = new LinkedList<>();
 
@@ -336,7 +341,7 @@ public class ViewDataScreen extends Activity {
             }catch (IOException e){
                 Log.e("ViewDataScreen","send error, unable to send",e);
             }
-        }
+        }//...............................................................................copied and sent to onCreate so we can test somewhere else
 
         public void stop() {
             bStop = true;
