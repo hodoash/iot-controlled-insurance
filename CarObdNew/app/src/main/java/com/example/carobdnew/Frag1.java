@@ -36,12 +36,8 @@ public class Frag1 extends Fragment {
                 //send data
                 ViewDataScreen viewDataScreen = new ViewDataScreen();
                 viewDataScreen.callWiteFun(firstData);
-//               ViewDataScreen.ReadInput readClass = new ViewDataScreen.ReadInput();
-//                readClass.writeToArduino();
             }
         });
-
-//        return inflater.inflate(R.layout.frag1_layout,container,false);
         return view;
     }
 }
